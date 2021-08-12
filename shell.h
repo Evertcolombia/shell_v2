@@ -25,7 +25,7 @@ typedef struct path_s {
 
 typedef struct cmd_s {
 	char * cname;
-	int (*func)(char *token);
+	int (*func)(char *token, path_t *_path);
 } cmd_t;
 
 
@@ -48,6 +48,8 @@ size_t print_listint_safe(path_t *head);
 char *search_path(char *pathname, path_t *head);
 size_t free_listint_safe(path_t **h);
 
+int (*search_in_builtins(char *cname))(char *cname, path_t *_path);
+int exit_builtin(char *cname, path_t *_path);
 
 void *_calloc(unsigned int nmemb, unsigned int size);
 #endif /* SHELL_H */
