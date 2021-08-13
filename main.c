@@ -13,9 +13,10 @@ int main()
 	path_t *_path = NULL;
 	struct stat st;
 	int (*execute)(char *cname, path_t *path);
-    
-	_path = create_path_list();
 	/*print_listint_safe(_path);*/
+
+	signal(SIGINT, handleCtrlc);
+	init_env(), _path = create_path_list();
 
 	while (state)
 	{

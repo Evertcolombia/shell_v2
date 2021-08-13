@@ -9,6 +9,7 @@ char *get_line(path_t *head)
 	{
 		free(buffer);
 		free_listint_safe(&head);
+		free_env();
 		exit(0);
 	}
 	return (buffer);

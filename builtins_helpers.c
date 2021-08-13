@@ -34,6 +34,7 @@ int exit_builtin(char *cname, path_t *_path)
 	(void) cname;
 
 	free_listint_safe(&_path);
+	free_env();
 	free(buffer);
 	exit(1);
 }

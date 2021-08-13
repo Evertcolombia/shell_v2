@@ -14,6 +14,7 @@ void fork_process(char *tokens[], path_t *_path)
 		if (execve(tokens[0], tokens, NULL) == -1)
 		{
 			free_listint_safe(&_path);
+			free_env();
 			free(buffer);
 			_exit(2);
 		}
