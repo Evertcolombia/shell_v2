@@ -35,10 +35,11 @@ int main()
 			tokens[++i] = strtok(NULL, " ");
 
 		if (stat(tokens[0], &st) == -1) {
+
 			new = search_path(tokens[0], _path);
 			if (new) {
 				tokens[0] = new;
-				fork_process(tokens);
+				fork_process(tokens, _path);
 				free(buffer);
 				continue;
 			}
@@ -49,7 +50,7 @@ int main()
 			}
 		}
 		if (ex == 0)
-			fork_process(tokens);
+			fork_process(tokens, _path);
 	}
 	return (0);
 }

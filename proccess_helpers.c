@@ -1,6 +1,6 @@
 #include "shell.h"
 
-void fork_process(char *tokens[])
+void fork_process(char *tokens[], path_t *_path)
 {
 	int status;
 	pid_t child_pid;
@@ -12,7 +12,11 @@ void fork_process(char *tokens[])
 	}
 	else if (child_pid == 0) {
 		if (execve(tokens[0], tokens, NULL) == -1)
-			perror("./shell");
+		{
+			free_listint_safe(&_path);
+			free(buffer);
+			_exit(2);
+		}
 	}
 	waitpid(-1, &status, 0);
 	free(tokens[0]);
@@ -25,13 +29,14 @@ path_t *create_path_list()
 
 	head = NULL;
 	for (; *copy != NULL; copy++) {
-		if (_strcmp(*copy, "LS_COLORS") == 0)
-			continue;
-		token = strtok(*copy, "=");
-		while(token != NULL) {
-			token = strtok(NULL, ":");
-			if (token)
-				add_node(&head, token);
+		if (_strcmp(*copy, "PATH=") == 0)
+		{
+			token = strtok(*copy, "=");
+			while(token != NULL) {
+				token = strtok(NULL, ":");
+				if (token)
+					add_node(&head, token);
+			}
 		}
 	}
 
