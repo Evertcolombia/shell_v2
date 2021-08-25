@@ -33,6 +33,7 @@ void handleCtrlc(int i);
 
 char *get_line(path_t *head);
 int validate_line(int len, char *buffer);
+void tokenize_command(char *tokens[], char *buffer);
 
 void fork_process(char *tokens[], path_t *_path);
 path_t *create_path_list();

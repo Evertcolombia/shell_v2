@@ -12,6 +12,11 @@ char *get_line(path_t *head)
 		free_env();
 		exit(0);
 	}
+
+	if (validate_line(_strlen(buffer), buffer) == 1)
+		return (NULL);
+
+	buffer[_strlen(buffer) - 1] = '\0';
 	return (buffer);
 }
 
@@ -31,4 +36,13 @@ int validate_line(int len, char *buffer)
 		return (len);
 	}
 	return(0);
+}
+
+void tokenize_command(char *tokens[], char *buffer)
+{
+	int i = 0;
+
+	tokens[i] = strtok(buffer, " ");
+	while(tokens[i] != NULL)
+		tokens[++i] = strtok(NULL, " ");
 }

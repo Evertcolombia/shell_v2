@@ -8,7 +8,7 @@
 int main()
 {
 	char *tokens[10], *new = NULL;
-	int i, ex = 0;
+	int ex = 0;
 	bool state = true;
 	path_t *_path = NULL;
 	struct stat st;
@@ -20,26 +20,18 @@ int main()
 
 	while (state)
 	{
-		i = 0, new = NULL;
 		if (isatty(STDIN_FILENO))
 			write(STDIN_FILENO, "#cisfun$ ", 9);
-		signal(SIGINT, handleCtrlc);
 
 		buffer = get_line(_path);
-		if (validate_line(_strlen(buffer), buffer) == 1)
+		if (buffer == NULL)
 			continue;
 
-		buffer[_strlen(buffer) - 1] = '\0';
-		tokens[i] = strtok(buffer, " ");
-
-		while(tokens[i] != NULL)
-			tokens[++i] = strtok(NULL, " ");
-
+		tokenize_command(tokens, buffer);
 		if (stat(tokens[0], &st) == -1) {
-
 			new = search_path(tokens[0], _path);
 			if (new) {
-				tokens[0] = new;
+				tokens[0] = new, new = NULL;
 				fork_process(tokens, _path);
 				free(buffer);
 				continue;
